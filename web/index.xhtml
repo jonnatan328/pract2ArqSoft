@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <title><h:outputText value="#{msg.title}" /></title>
+        <script name="jquery/jquery.js" library="primefaces"></script>
+       <!-- <h:outputStylesheet name="css/jsfcrud.css"/>-->
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:commandButton action="#{payment.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
+            <h:commandButton action="#{payment.changeLanguage('es')}" value="Español" image="resources/spain.gif" />
+        </h:form>
+        <div class="cuerpo">
+            <nav id="menu">
+                <h:form>
+                    <ul>
+                        <li><h:commandLink action="student">Estudiantes</h:commandLink></li>
+                        <li><h:commandLink action="enrolment">Matricula</h:commandLink></li>
+                    </ul> 
+                </h:form>
+            </nav>
+        </div>
+ 
+        <footer id="pie">
+            
+        </footer>
+    </h:body>
+
+</html>
+
