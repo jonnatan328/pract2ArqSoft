@@ -7,17 +7,15 @@ package com.udea.jsf.controller;
 
 import com.udea.logica.StudentFacadeLocal;
 import com.udea.modelo.Student;
+import java.util.ArrayList;
 import java.util.Locale;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
-/**
- *
- * @author acerpc
- */
 @Named(value = "studentBean")
 @Dependent
 public class StudentBean {
@@ -53,8 +51,9 @@ public class StudentBean {
     }
     
     String sSubCadena;
-    String mensajecard;
+    String mensajeExist;
     String m;
+    Student s;
     
      public String getM(){
         return m;
@@ -62,11 +61,11 @@ public class StudentBean {
     public void setM(String m){
         this.m = m;
     }
-    public String getMensajecard() { 
-        return mensajecard;
+    public String getMensajeExist() { 
+        return mensajeExist;
     }
-    public void setMensajecard(String mensajecard) {
-        this.mensajecard = mensajecard;
+    public void setMensajeExist(String mensajeExist) {
+        this.mensajeExist = mensajeExist;
     }
     public String getsSubCadena() {
         return sSubCadena;
@@ -117,22 +116,66 @@ public class StudentBean {
         this.stratum = stratum;
     }
     
-    //Acción para insertar el registro en la BD.  
+    public String validar() {
+        //Student s=this.studentFacade.find(id);
+        /*if(s!=null){
+            mensajeExist="El estudiante ya existe";
+            this.setMensajeExist(mensajeExist);
+            return this.getMensajeExist();
+        }
+        else{*/
+            return null;
+        //}   
+    }
+    
+    public SelectItem createStudent(){
+        s = new Student();
+        s.setId(id);
+        s.setName(name);
+        s.setLastName(lastName);
+        s.setPhone(phone);
+        s.setAddress(address);
+        s.setStratum(stratum);
+        SelectItem item = new SelectItem();
+        item.setLabel(s.getName());
+        item.setDescription(s.getName());
+        item.setValue(s);    
+        return item;
+    }
+        
+    
+    //Obtiene los estudiantes de bd
+    /*
+    public List<SelectItem> obtenerListado()
+    {
+        List<SelectItem> vresultado= new ArrayList<>();
+        List<Student> listado= this.studentFacade.findAll();
+        for (Student stud:listado)
+        {
+            SelectItem item = new SelectItem();
+            item.setLabel(stud.getName());
+            item.setDescription(stud.getName());
+            item.setValue(stud);
+            vresultado.add(item);
+        }
+        return vresultado;
+    }*/
+    
+    //AcciÃ³n para insertar el registro en la BD.  
     public String guardar(){
-
-         Student s = new Student();
+         /*Student s = new Student();
          s.setId(id);
          s.setName(name);
          s.setLastName(lastName);
          s.setPhone(phone);
          s.setAddress(address);
-         s.setStratum(stratum);
+         s.setStratum(stratum);*/
          this.studentFacade.create(s);
-         m=this.getMensajecard();
+         //m=this.getMensajecard();
          return "StudentCreate";
     }
     
-    //Para Internacionalización
+    //Para InternacionalizaciÃ³n
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
       public Locale getLocale() {
       return locale;

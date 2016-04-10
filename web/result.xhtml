@@ -17,35 +17,35 @@ and open the template in the editor.
     <body>
         <h:form>
             <h1>
-                <h:outputText value="#{msg.payment_Info}" />
+                <h:outputText value="#{msg.enrolment_Info}" />
             </h1>
             <h:panelGrid columns="2">
             
-                <h:outputText value="#{msg.id}" />
-                <h:outputText value="#{payment.id}">
+                <h:outputText value="#{msg.id_enrolment}" />
+                <h:outputText value="#{enrolment.id}">
                 </h:outputText>
 
-                <h:outputText value="#{msg.amount}" />
-                <h:outputText value="#{payment.amount}">
+                <h:outputText value="#{msg.student}" />
+                <h:outputText value="#{enrolment.student}">
                     <f:convertNumber type="currency" />
                 </h:outputText>
 
-                <h:outputText value="#{msg.creditCard}" />
-                <h:outputText value="#{payment.card}" />
-
-                <h:outputText value="#{msg.mensajecard}" />
-                <h:outputText value="#{payment.m}" />
-
-                <h:outputText value="#{msg.cvv_no}" />
-                <h:outputText value="#{payment.cvvNo}" />
-
-                <h:outputText value="#{msg.expiry_date}" />
-                <h:outputText value="#{payment.date}">
-                    <f:convertDateTime pattern="MM/yyyy" />
+                <h:outputText value="#{msg.program}" />
+                <h:outputText value="#{enrolment.program}" />
+                
+                <h:outputText value="#{msg.semester}" />
+                <h:outputText value="#{enrolment.semester}" />
+                
+                <h:outputText value="#{msg.starting_date}" />
+                <h:outputText value="#{enrolment.startingDate}" />
+                
+                <h:outputText value="#{msg.starting_date}" />
+                <h:outputText value="#{enrolment.startingDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
                 </h:outputText>
 
                 <p:column headerText="Qr Code">    
-                    <p:barcode value="#{payment.id}#{payment.amount}#{payment.date}" type="qr" /> 
+                    <p:barcode value="#{enrolment.id}#{enrolment.student}#{enrolment.semester}" type="qr" /> 
                 </p:column>
             
             </h:panelGrid>

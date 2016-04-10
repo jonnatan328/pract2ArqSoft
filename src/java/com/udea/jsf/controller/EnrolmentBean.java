@@ -7,15 +7,19 @@ package com.udea.jsf.controller;
 
 import com.udea.logica.EnrolmentFacadeLocal;
 import com.udea.modelo.Enrolment;
+import com.udea.modelo.Student;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 
 
 @Named(value = "enrolmentBean")
@@ -25,6 +29,9 @@ public class EnrolmentBean implements Serializable {
     private EnrolmentFacadeLocal enrolmentFacade;
     
     private UIComponent mybutton;
+    @ManagedProperty(value="#{StudentBean}")
+    StudentBean studentBean;
+    
     public UIComponent getMybutton() {
         return mybutton;
     }
@@ -33,7 +40,7 @@ public class EnrolmentBean implements Serializable {
     }
 
     private int id;
-    private long student;
+    private Student student;
     private String semester;
     private String program;
     private Date startingDate = new Date();
@@ -51,7 +58,7 @@ public class EnrolmentBean implements Serializable {
     }
    
     String sSubCadena;
-    String mensajecard;
+    String mensajeExist;
     String m;
 
     public String getM(){
@@ -60,11 +67,11 @@ public class EnrolmentBean implements Serializable {
     public void setM(String m){
         this.m = m;
     }
-    public String getMensajecard() { 
-        return mensajecard;
+    public String getMensajeExist() { 
+        return mensajeExist;
     }
     public void setMensajecard(String mensajecard) {
-        this.mensajecard = mensajecard;
+        this.mensajeExist = mensajeExist;
     }
     public String getsSubCadena() {
         return sSubCadena;
@@ -78,10 +85,10 @@ public class EnrolmentBean implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public long getStudent() {
+    public Student getStudent() {
         return student;
     }
-    public void setStudent(long student) {
+    public void setStudent(Student student) {
         this.student = student;
     }
     public String getProgram() {
@@ -103,23 +110,25 @@ public void setSemester(String semester) {
     this.semester = semester;
 }
 
- //Acción para insertar el registro en la BD.  
+ //AcciÃ³n para insertar el registro en la BD.  
 public String guardar(){
-     
+     //FacesContext facesContext = FacesContext.getCurrentInstance();
+     //studentBean = facesContext.getApplication().evaluateExpressionGet(facesContext,"#{StudentBean}", StudentBean.class);
+     //student=studentBean.createStudent();
      Enrolment p = new Enrolment();
      p.setId(id);
-     //p.setStudent(student);
+     p.setStudent(student);
      p.setProgram(program);
      p.setSemester(semester);
      p.setStartingDate(startingDate);
      this.enrolmentFacade.create(p);
-     m=this.getMensajecard();
+     m=this.getMensajeExist();
      return "EnrolmentCreate";
 }
 
 
-//Permite Validar el tipo de tarjeta de crédito
-//Validad el rango de los primeros 4 digitos según el tipo de Tarjeta Visa o Mastercard. Si esta en algún rango se activa el botón submit.  
+//Permite Validar el tipo de tarjeta de crÃ©dito
+//Validad el rango de los primeros 4 digitos segÃºn el tipo de Tarjeta Visa o Mastercard. Si esta en algÃºn rango se activa el botÃ³n submit.  
 /*
 public String validar() {
      String sCadena;
@@ -150,7 +159,7 @@ public String validar() {
        return null;
     }
 */
-//Para Internacionalización
+//Para InternacionalizaciÃ³n
 private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
   public Locale getLocale() {
   return locale;

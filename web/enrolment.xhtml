@@ -5,12 +5,78 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <title><h:outputText value="#{msg.title}" /></title>
+        <script name="jquery/jquery.js" library="primefaces"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <h:form>
+            <h:commandButton action="#{enrolment.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
+            <h:commandButton action="#{enrolment.changeLanguage('es')}" value="EspaÃ±ol" image="resources/spain.gif" />
+        </h:form>
+        <h:form prependId="false">       
+            <h1>
+                <h:outputText value="#{msg['enrolment_details']}" />
+            </h1>
+            <h:panelGrid columns="3">
+
+                <p:outputLabel value="#{msg.id_enrolment}" for="id" />
+                <p:inputText id="id" label="#{msg.id_enrolment}" value="#{enrolment.id}" required="true">
+                    <f:attribute name="requiredMessage" value="#{msg.id_required}" />
+                </p:inputText>
+                <p:message for="id" styleClass="errormsg" />
+                
+                <p:outputLabel value="#{msg.student}" for="student" />
+               <!-- <p:inputText id="student" label="#{msg.student}" value="#{student.name}" required="true">
+                    <f:attribute name="requiredMessage" value="#{msg.student_required}" />
+                </p:inputText>-->
+                <h:selectOneMenu id="student" value="#{enrolment.student}">
+                    <f:selectItem value="#{student.createStudent()}"> </f:selectItem>
+                </h:selectOneMenu>
+                <p:message for="student" styleClass="errormsg" />
+                               
+                <p:outputLabel value="#{msg.program}" for="program" />
+                <h:selectOneMenu id="program" value="#{enrolment.program}">
+                    <f:selectItem itemValue="Ing. sistemas" itemLabel="Ing. sistemas" />
+                    <f:selectItem itemValue="Ing. civil" itemLabel="Ing. civil" />
+                    <f:selectItem itemValue="Astronomia" itemLabel="Astronomia" />
+                    <f:selectItem itemValue="Psicologia" itemLabel="Psicologia" />
+                    <f:selectItem itemValue="Administracion emp." itemLabel="Administracion emp." />
+                    <f:selectItem itemValue="Sociologia" itemLabel="Sociologia" />
+                </h:selectOneMenu>	
+                <p:message for="program" styleClass="errormsg" />
+                
+                <p:outputLabel value="#{msg.semester}" for="semester" />
+                <p:inputText id="semester" label="#{msg.semester}" value="#{enrolment.semester}" required="true">
+                    <f:attribute name="requiredMessage" value="#{msg.semester_required}" />
+                    <!--<f:convertNumber minFractionDigits="2" />-->
+                    <!--<f:validateDoubleRange minimum="100" maximum="50000" />-->
+                </p:inputText>
+                <p:message for="semester" styleClass="errormsg" />
+                
+                <p:outputLabel value="#{msg.starting_date}" for="startingDate" />
+                <p:calendar id="startingDate" label="#{msg.starting_date}"  navigator="true"  readonlyInput="true" showOn="button" value="#{enrolment.startingDate}" pattern="DD/MM/yyyy" required="true">    
+                </p:calendar>
+                <p:message for="startingDate" styleClass="errormsg" />
+                
+            </h:panelGrid>
+            <br/>
+
+            <h2>CAPTCHA</h2>
+            <p:messages id="msg"/>
+            <p:captcha id="captcha"></p:captcha>
+            <br/>
+            
+            <p:commandButton value="Check" actionListener="#{captcha.check(e)}"  ajax="false"></p:commandButton>
+            <p:commandButton id="x"  value="Submit"  action="submit" actionListener="#{enrolment.guardar()}" update="@form:x">
+                
+            </p:commandButton>
+            
+        </h:form>
     </body>
 </html>

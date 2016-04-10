@@ -19,16 +19,32 @@
             <to-view-id>/result.xhtml</to-view-id>
         </navigation-case>-->
     </navigation-rule>
- 
+    
+    <navigation-rule>
+      <from-view-id>/infoStudent.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>siguiente</from-outcome>
+            <to-view-id>/enrolment.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+      <from-view-id>/enrolment.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>submit</from-outcome>
+            <to-view-id>/result.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
     <navigation-rule>
       <from-view-id>/result.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>back</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule> 
+    </navigation-rule>
 
-    <managed-bean>
+        <managed-bean>
         <managed-bean-name>student</managed-bean-name>
         <managed-bean-class>com.udea.jsf.controller.StudentBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -46,7 +62,7 @@
        <supported-locale>es</supported-locale>
        </locale-config>
         <resource-bundle>
-            <base-name>com.udea.messages.messages_student</base-name>
+            <base-name>com.udea.messages.messages</base-name>
             <var>msg</var>
         </resource-bundle>
         <resource-bundle>
