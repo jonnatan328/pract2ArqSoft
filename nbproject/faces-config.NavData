@@ -3,7 +3,10 @@
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
         <Node id="index.xhtml" x="150" y="150" zoom="true"/>
-        <Node id="result.xhtml" x="144" y="349" zoom="true"/>
+        <Node id="infoStudent.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="welcomePrimefaces.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="enrolment.xhtml" x="311" y="298" zoom="true"/>
+        <Node id="result.xhtml" x="88" y="294" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

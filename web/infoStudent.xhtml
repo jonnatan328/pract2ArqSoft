@@ -9,12 +9,12 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <head>
+    <h:head>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <title><h:outputText value="#{msg.title}" /></title>
         <script name="jquery/jquery.js" library="primefaces"></script>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <h:form>
             <h:commandButton action="#{student.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
             <h:commandButton action="#{student.changeLanguage('es')}" value="Español" image="resources/spain.gif" />
@@ -81,8 +81,8 @@ and open the template in the editor.
             <p:commandButton value="Check" actionListener="#{captcha.check(e)}"  ajax="false"></p:commandButton>
             <p:commandButton id="x"  value="Submit" actionListener="#{student.guardar()}"  action="submit" update="@form:x"/><!--disabled="#{student.disable}"-->
             <!--<h:commandButton  id="mybutton"  binding="#{student.mybutton}" value="validar" actionListener="#{payment.validar()}"/>-->
-            <h:message for="mybutton" />
+            <h:messages for="mybutton" />
 
         </h:form>
-    </body>
+    </h:body>
 </html>

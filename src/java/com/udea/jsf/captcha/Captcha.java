@@ -15,6 +15,7 @@ public class Captcha {
     public Captcha() {
     }
      public void check(ActionEvent e){
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Su codigo es correcto!",null));
+        FacesContext.getCurrentInstance().addMessage(
+                null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Su codigo es correcto!",null));
     }
 }
