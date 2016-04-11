@@ -5,7 +5,9 @@
  */
 package com.udea.jsf.controller;
 
+import com.udea.logica.CoursesFacadeLocal;
 import com.udea.logica.EnrolmentFacadeLocal;
+import com.udea.modelo.Courses;
 import com.udea.modelo.Enrolment;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,9 +30,13 @@ import javax.faces.validator.ValidatorException;
 public class EnrolmentBean implements Serializable {
 
     @EJB
+    private CoursesFacadeLocal coursesFacade;
+    @EJB
     private EnrolmentFacadeLocal enrolmentFacade;
+
     private UIComponent myButton;
     private final static Logger LOGGER = Logger.getLogger(EnrolmentBean.class.getCanonicalName());
+    private List<Courses> courseList;
 
     private int id;
     private long student;
@@ -40,32 +46,29 @@ public class EnrolmentBean implements Serializable {
     boolean disable = true;
     private List<String> availableCourses = new ArrayList<String>();
     private List<String> courses;
-    private String selectedCourse = "";
 
     public EnrolmentBean() {
-        courses = new ArrayList<String>();
-        availableCourses.add("Algebra y trigonometria");
-        availableCourses.add("Calculo diferencial");
-        availableCourses.add("Descubriendo la fisica");
-        availableCourses.add("Matematicas discretas");
-        availableCourses.add("Logica y representacion");
-        availableCourses.add("Introducción a la ingenieria");        
-        availableCourses.add("Ingles 1");
-        availableCourses.add("Geometria vectorial");
-        availableCourses.add("Vivamos la universidad");
- 
     }
 
     public void save() {
-        if(courses == null || courses.size()>=3){
+        if (courses == null || courses.size() >= 3) {
             FacesMessage message = new FacesMessage("Debe escoger un maximo de 3 materias");
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(myButton.getClientId(context), message);
-            
-        }        
-                 FacesMessage message = new FacesMessage("Debe escoger un maximo de 3 materias");
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(myButton.getClientId(context), message);
+
+        }
+        FacesMessage message = new FacesMessage("Debe escoger un maximo de 3 materias");
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(myButton.getClientId(context), message);
+    }
+
+    public void updateCourses() {
+        if (courseList == null) {
+            courseList = coursesFacade.findAll();
+            for (Courses c : courseList) {
+                availableCourses.add(c.getCourseName());
+            }
+        }
     }
 
     public List<String> getCourses() {
@@ -74,14 +77,6 @@ public class EnrolmentBean implements Serializable {
 
     public void setCourses(List<String> courses) {
         this.courses = courses;
-    }    
-    
-    public String getSelectedCourse() {
-        return selectedCourse;
-    }
-
-    public void setSelectedCourse(String selectedCourse) {
-        this.selectedCourse = selectedCourse;
     }
 
     public List<String> getAvailableCourses() {
@@ -180,7 +175,7 @@ public class EnrolmentBean implements Serializable {
         this.enrolmentFacade.create(p);
         m = this.getMensajecard();
         return "EnrolmentCreate";
-        
+
     }
 
     public UIComponent getMyButton() {
@@ -191,7 +186,6 @@ public class EnrolmentBean implements Serializable {
         this.myButton = myButton;
     }
 
-    
 //Permite Validar el tipo de tarjeta de crédito
 //Validad el rango de los primeros 4 digitos según el tipo de Tarjeta Visa o Mastercard. Si esta en algún rango se activa el botón submit.  
 /*
@@ -240,7 +234,4 @@ public class EnrolmentBean implements Serializable {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
     }
 
-    public void añadirMateria() {
-
-    }
 }

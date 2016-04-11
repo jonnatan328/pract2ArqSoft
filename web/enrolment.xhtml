@@ -49,10 +49,14 @@ and open the template in the editor.
                     </p:dataList>    
                 </p:panelGrid>
 
-                <p:commandButton value="Añadir materias" oncomplete="PF('diag1').show()" icon='ui-icon-check' /> 
+                <p:commandButton value="Añadir materias" oncomplete="PF('diag1').show()" 
+                                 actionListener="#{enrolment.updateCourses()}" icon='ui-icon-check'
+                                 update="grid"/> 
+
+                <p:commandButton id="myButton" value="Confirmar" update="listCourses"/> 
 
                 <p:dialog header="values" modal="true" showEffect="clip" id="dialog1" widgetVar="diag1">
-                    <p:selectManyCheckbox id="grid" value="#{enrolment.courses}" layout="grid" columns="2">
+                    <p:selectManyCheckbox id="grid" value="#{enrolment.courses}" layout="grid" columns="1">
                         <f:selectItems value="#{enrolment.availableCourses}" var="#{course}" 
                                        itemLabel="#{course}" itemValue="#{course}"/>
                     </p:selectManyCheckbox>
@@ -61,7 +65,6 @@ and open the template in the editor.
                                      icon='ui-icon-check' update="listCourses"/> 
                 </p:dialog>                
 
-                <p:commandButton id="myButton" value="Confirmar" update="listCourses"/> 
             </h:form>
         </div>
     </h:body>
