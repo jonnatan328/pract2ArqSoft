@@ -6,18 +6,19 @@
 package com.udea.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,20 +38,19 @@ public class Courses implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, length = 20)
     private String id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "course_name")
+    @Column(name = "course_name", nullable = false, length = 60)
     private String courseName;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "credits")
+    @Column(name = "credits", nullable = false)
     private int credits;
-    @JoinColumn(name = "program", referencedColumnName = "code")
-    @ManyToOne
-    private Programs program;
+    @OneToMany(mappedBy = "courseId")
+    private List<Enrolments> enrolmentsList;
 
     public Courses() {
     }
@@ -89,12 +89,13 @@ public class Courses implements Serializable {
         this.credits = credits;
     }
 
-    public Programs getProgram() {
-        return program;
+    @XmlTransient
+    public List<Enrolments> getEnrolmentsList() {
+        return enrolmentsList;
     }
 
-    public void setProgram(Programs program) {
-        this.program = program;
+    public void setEnrolmentsList(List<Enrolments> enrolmentsList) {
+        this.enrolmentsList = enrolmentsList;
     }
 
     @Override

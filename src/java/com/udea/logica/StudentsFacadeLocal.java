@@ -5,28 +5,28 @@
  */
 package com.udea.logica;
 
-import com.udea.modelo.Student;
+import com.udea.modelo.Students;
 import java.util.List;
 import javax.ejb.Local;
 
 /**
  *
- * @author acerpc
+ * @author Daego_000
  */
 @Local
-public interface StudentFacadeLocal {
+public interface StudentsFacadeLocal {
 
-    void create(Student student);
+    void create(Students students);
 
-    void edit(Student student);
+    void edit(Students students);
 
-    void remove(Student student);
+    void remove(Students students);
 
-    Student find(Object id);
+    Students find(Object id);
 
-    List<Student> findAll();
+    List<Students> findAll();
 
-    List<Student> findRange(int[] range);
+    List<Students> findRange(int[] range);
 
     int count();
     

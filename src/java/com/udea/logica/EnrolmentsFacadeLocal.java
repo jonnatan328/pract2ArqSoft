@@ -5,7 +5,7 @@
  */
 package com.udea.logica;
 
-import com.udea.modelo.Programs;
+import com.udea.modelo.Enrolments;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author Daego_000
  */
 @Local
-public interface ProgramsFacadeLocal {
+public interface EnrolmentsFacadeLocal {
 
-    void create(Programs programs);
+    void create(Enrolments enrolments);
 
-    void edit(Programs programs);
+    void edit(Enrolments enrolments);
 
-    void remove(Programs programs);
+    void remove(Enrolments enrolments);
 
-    Programs find(Object id);
+    Enrolments find(Object id);
 
-    List<Programs> findAll();
+    List<Enrolments> findAll();
 
-    List<Programs> findRange(int[] range);
+    List<Enrolments> findRange(int[] range);
 
     int count();
     

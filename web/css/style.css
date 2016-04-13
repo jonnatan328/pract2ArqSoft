@@ -1,3 +1,7 @@
 .errormsg {
    color:red;
 }
+
+#courseTable {
+ border : 0px solid white;
+}

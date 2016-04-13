@@ -1,147 +1,196 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.udea.jsf.controller;
 
-import com.udea.logica.StudentFacadeLocal;
-import com.udea.modelo.Student;
+import com.udea.logica.StudentsFacadeLocal;
+import com.udea.modelo.Students;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-/**
- *
- * @author acerpc
- */
-@Named(value = "studentBean")
-@Dependent
-public class StudentBean {
+@ManagedBean(name = "student")
+@SessionScoped
+public class StudentBean implements Serializable {
+
     @EJB
-    private StudentFacadeLocal studentFacade;
-    
-    public StudentBean() {
-    }
-    
+    private StudentsFacadeLocal studentsFacade;
+
     private UIComponent mybutton;
-    public UIComponent getMybutton() {
-        return mybutton;
-    }
-    public void setMybutton(UIComponent mybutton) {
-        this.mybutton = mybutton;
-    }
-    
+
     private long id;
     private String name;
     private String lastName;
+    private String program;
     private String phone;
     private String address;
     private int stratum;
-    boolean disable=true;
+    boolean disable = true;
     
-    
-     public boolean isDisable() {
+    private Students student;
+
+    private List<String> availablePrograms;
+
+    String sSubCadena;
+    String mensajecard;
+    String m;
+
+    public StudentBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+        availablePrograms = new ArrayList<String>();
+        availablePrograms.add("Ingenieria de sistemas");
+        availablePrograms.add("Ingenieria industrial");
+        availablePrograms.add("Ingenieria telecomunicaciones");
+        availablePrograms.add("Ingenieria ambiental");
+        availablePrograms.add("Ingenieria electrica");
+        availablePrograms.add("Filosofia");
+    }
+
+    public void save() {
+        student = new Students();
+        student.setIdentification(id);
+        student.setNames(name);
+        student.setLastNames(lastName);
+        student.setProgram(program);
+        student.setAddress(address);
+        student.setPhone(phone);
+        student.setStratum(stratum);
+        
+        studentsFacade.create(student);
+    }
+
+    public void setMybutton(UIComponent mybutton) {
+        this.mybutton = mybutton;
+    }
+
+    public Students getStudent() {
+        return student;
+    }
+
+    public void setStudent(Students student) {
+        this.student = student;
+    }   
+
+    public UIComponent getMybutton() {
+        return mybutton;
+    }
+
+    public boolean isDisable() {
         return disable;
     }
 
     public void setDisable(boolean disable) {
         this.disable = disable;
     }
-    
-    String sSubCadena;
-    String mensajecard;
-    String m;
-    
-     public String getM(){
+
+    public List<String> getAvailablePrograms() {
+        return availablePrograms;
+    }
+
+    public void setAvailablePrograms(List<String> availablePrograms) {
+        this.availablePrograms = availablePrograms;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    public void setProgram(String program) {
+        this.program = program;
+    }
+
+    public String getM() {
         return m;
     }
-    public void setM(String m){
+
+    public void setM(String m) {
         this.m = m;
     }
-    public String getMensajecard() { 
+
+    public String getMensajecard() {
         return mensajecard;
     }
+
     public void setMensajecard(String mensajecard) {
         this.mensajecard = mensajecard;
     }
+
     public String getsSubCadena() {
         return sSubCadena;
     }
+
     public void setsSubCadena(String sSubCadena) {
         this.sSubCadena = sSubCadena;
     }
-    
+
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public String getPhone() {
         return phone;
     }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
-    
-     public int getStratum() {
+
+    public int getStratum() {
         return stratum;
     }
+
     public void setStratum(int stratum) {
         this.stratum = stratum;
     }
-    
-    //Acción para insertar el registro en la BD.  
-    public String guardar(){
 
-         Student s = new Student();
-         s.setId(id);
-         s.setName(name);
-         s.setLastName(lastName);
-         s.setPhone(phone);
-         s.setAddress(address);
-         s.setStratum(stratum);
-         this.studentFacade.create(s);
-         m=this.getMensajecard();
-         return "StudentCreate";
-    }
-    
     //Para Internacionalización
     private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-      public Locale getLocale() {
-      return locale;
-        }
-     public String getLanguage() {
-            return locale.getLanguage();
-       }
-     public void changeLanguage(String language) {
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public String getLanguage() {
+        return locale.getLanguage();
+    }
+
+    public void changeLanguage(String language) {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
-      }
+    }
 }

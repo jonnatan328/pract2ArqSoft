@@ -5,7 +5,7 @@
  */
 package com.udea.logica;
 
-import com.udea.modelo.Programs;
+import com.udea.modelo.Enrolments;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Daego_000
  */
 @Stateless
-public class ProgramsFacade extends AbstractFacade<Programs> implements ProgramsFacadeLocal {
+public class EnrolmentsFacade extends AbstractFacade<Enrolments> implements EnrolmentsFacadeLocal {
     @PersistenceContext(unitName = "EnrolmentPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class ProgramsFacade extends AbstractFacade<Programs> implements Programs
         return em;
     }
 
-    public ProgramsFacade() {
-        super(Programs.class);
+    public EnrolmentsFacade() {
+        super(Enrolments.class);
     }
     
 }

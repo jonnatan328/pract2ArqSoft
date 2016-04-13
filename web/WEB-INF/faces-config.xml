@@ -7,44 +7,28 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>student</from-outcome>
+            <from-outcome>startEnrolment</from-outcome>
             <to-view-id>/infoStudent.xhtml</to-view-id>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>enrolment</from-outcome>
-            <to-view-id>/enrolment.xhtml</to-view-id>
-        </navigation-case>
-       <!-- <navigation-case>
+        <!-- <navigation-case>
             <from-outcome>submit</from-outcome>
             <to-view-id>/result.xhtml</to-view-id>
         </navigation-case>-->
     </navigation-rule>
  
     <navigation-rule>
-      <from-view-id>/result.xhtml</from-view-id>
+        <from-view-id>/result.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>back</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
-
-    <managed-bean>
-        <managed-bean-name>student</managed-bean-name>
-        <managed-bean-class>com.udea.jsf.controller.StudentBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
- 
-     <managed-bean>
-        <managed-bean-name>enrolment</managed-bean-name>
-        <managed-bean-class>com.udea.jsf.controller.EnrolmentBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
     
     <application>
         <locale-config>
-       <default-locale>en</default-locale>
-       <supported-locale>es</supported-locale>
-       </locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>es</supported-locale>
+        </locale-config>
         <resource-bundle>
             <base-name>com.udea.messages.messages_student</base-name>
             <var>msg</var>
@@ -60,6 +44,20 @@
         <managed-bean-class>com.udea.jsf.captcha.Captcha</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <navigation-rule>
+        <from-view-id>/infoStudent.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>submitStudent</from-outcome>
+            <to-view-id>/enrolment.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/enrolment.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>submitEnrolment</from-outcome>
+            <to-view-id>/result.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
 
 

@@ -5,17 +5,17 @@
  */
 package com.udea.logica;
 
-import com.udea.modelo.Student;
+import com.udea.modelo.Students;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author acerpc
+ * @author Daego_000
  */
 @Stateless
-public class StudentFacade extends AbstractFacade<Student> implements StudentFacadeLocal {
+public class StudentsFacade extends AbstractFacade<Students> implements StudentsFacadeLocal {
     @PersistenceContext(unitName = "EnrolmentPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class StudentFacade extends AbstractFacade<Student> implements StudentFac
         return em;
     }
 
-    public StudentFacade() {
-        super(Student.class);
+    public StudentsFacade() {
+        super(Students.class);
     }
     
 }

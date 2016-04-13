@@ -19,6 +19,7 @@ and open the template in the editor.
             <h:commandButton action="#{student.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
             <h:commandButton action="#{student.changeLanguage('es')}" value="Español" image="resources/spain.gif" />
         </h:form>
+
         <h:form prependId="false">       
             <h1>
                 <h:outputText value="#{msg['student_details']}" />
@@ -30,7 +31,7 @@ and open the template in the editor.
                     <f:attribute name="requiredMessage" value="#{msg.id_required}" />
                 </p:inputText>
                 <p:message for="id" styleClass="errormsg" />
-                
+
                 <p:outputLabel value="#{msg.name}" for="name" />
                 <p:inputText id="name" label="#{msg.name}" value="#{student.name}" required="true">
                     <f:attribute name="requiredMessage" value="#{msg.namevalid}" />
@@ -38,7 +39,7 @@ and open the template in the editor.
                     <!--<f:validateDoubleRange minimum="100" maximum="50000" />-->
                 </p:inputText>
                 <p:message for="name" styleClass="errormsg" />
-                
+
                 <p:outputLabel value="#{msg.lastName}" for="lastName" />
                 <p:inputText id="lastName" label="#{msg.lastName}" value="#{student.lastName}" required="true">
                     <!--<f:validateLength minimum="16" />-->
@@ -46,13 +47,21 @@ and open the template in the editor.
                 </p:inputText>
                 <p:message for="lastName" styleClass="errormsg" />
 
+                <p:outputLabel value="#{msg.program}" for="program" />
+                <p:selectOneMenu id="program" value="#{student.program}" required="true">
+                    <f:selectItems value="#{student.availablePrograms}" var="#{program}"
+                                   itemLabel="#{program}" itemValue="#{program}"/>
+                    <f:attribute name="requiredMessage" value="#{msg.program_required}" />
+                </p:selectOneMenu>
+                <p:message for="program" styleClass="errormsg" />
+
                 <p:outputLabel value="#{msg.phone}" for="phone" />
                 <p:inputText id="phone" label="#{msg.phone}" value="#{student.phone}" required="true">
                     <f:validateLength minimum="7" />
                     <f:attribute name="requiredMessage" value="#{msg.phone_required}" />
                 </p:inputText>
                 <p:message for="phone" styleClass="errormsg" />
-                
+
                 <p:outputLabel value="#{msg.address}" for="address" />
                 <p:inputText id="address" label="#{msg.address}" value="#{student.address}" required="true">
                     <f:attribute name="requiredMessage" value="#{msg.address_required}" />
@@ -69,20 +78,16 @@ and open the template in the editor.
                     <f:selectItem itemValue="6" itemLabel="6" />
                 </h:selectOneMenu>	
                 <p:message for="stratum" styleClass="errormsg" />
-  
+
+
             </h:panelGrid>
-            <br/>
+            <br/>                   
 
-            <h2>CAPTCHA</h2>
-            <p:messages id="msg"/>
-            <p:captcha id="captcha"></p:captcha>
-            <br/>
-            
-            <p:commandButton value="Check" actionListener="#{captcha.check(e)}"  ajax="false"></p:commandButton>
-            <p:commandButton id="x"  value="Submit" actionListener="#{student.guardar()}"  action="submit" update="@form:x"/><!--disabled="#{student.disable}"-->
-            <!--<h:commandButton  id="mybutton"  binding="#{student.mybutton}" value="validar" actionListener="#{payment.validar()}"/>-->
+            <p:commandButton id="buttonx"  value="Siguiente" action="submitStudent" update="@form"/>
+            <h:commandLink action="submitStudent">Estudiantes</h:commandLink>
             <h:messages for="mybutton" />
+        </h:form>    
+        
 
-        </h:form>
     </h:body>
 </html>
