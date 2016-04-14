@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -30,7 +31,7 @@ public class StudentBean implements Serializable {
     private String address;
     private int stratum;
     boolean disable = true;
-    
+
     private Students student;
 
     private List<String> availablePrograms;
@@ -53,6 +54,17 @@ public class StudentBean implements Serializable {
         availablePrograms.add("Filosofia");
     }
 
+    public String validateStudent() {
+        if (studentsFacade.find(id) == null) {
+            return "submitStudent";
+        } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El estudiante ya ha sido matriculado.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(mybutton.getClientId(context), message);
+        }
+        return null;
+    }
+
     public void save() {
         student = new Students();
         student.setIdentification(id);
@@ -62,7 +74,6 @@ public class StudentBean implements Serializable {
         student.setAddress(address);
         student.setPhone(phone);
         student.setStratum(stratum);
-        
         studentsFacade.create(student);
     }
 
@@ -76,7 +87,7 @@ public class StudentBean implements Serializable {
 
     public void setStudent(Students student) {
         this.student = student;
-    }   
+    }
 
     public UIComponent getMybutton() {
         return mybutton;
@@ -176,21 +187,5 @@ public class StudentBean implements Serializable {
 
     public void setStratum(int stratum) {
         this.stratum = stratum;
-    }
-
-    //Para Internacionalización
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public String getLanguage() {
-        return locale.getLanguage();
-    }
-
-    public void changeLanguage(String language) {
-        locale = new Locale(language);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
     }
 }

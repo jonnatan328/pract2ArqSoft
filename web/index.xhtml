@@ -5,29 +5,32 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <title>#{msg.title_index}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <title><h:outputText value="#{msg.title}" /></title>
-        <script name="jquery/jquery.js" library="primefaces"></script>
-       <!-- <h:outputStylesheet name="css/jsfcrud.css"/>-->
     </h:head>
     <h:body>
-        <h:form>
-            <h:commandButton action="#{payment.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
-            <h:commandButton action="#{payment.changeLanguage('es')}" value="Español" image="resources/spain.gif" />
-        </h:form>
-        <div class="cuerpo">
-            <nav id="menu">
+
+        <header>
+            <h:form class="languages" >
+                <h:commandButton action="#{languageBean.changeLanguage('')}" value="English" image="img/eeuu.png" />
+                <h:commandButton action="#{languageBean.changeLanguage('es')}" value="Español" image="img/Spain.png" />
+            </h:form>
+        </header>
+
+
+        <div class="content">
+            <div class="body-content">
                 <h:form>
-                    <ul>
-                        <li><h:commandLink action="startEnrolment">Estudiantes</h:commandLink></li>
-                        <li><h:commandLink action="a">Matricula</h:commandLink></li>
-                    </ul> 
+                    <img id="nojava" src="img/thisisnotjava.png" align="center"/>
+                    <h:commandLink class="startButton" action="startEnrolment">#{msg.start_enrolment}</h:commandLink>
                 </h:form>
-            </nav>
+            </div>
+
         </div>
- 
+
         <footer id="pie">
-            
+
         </footer>
     </h:body>
 

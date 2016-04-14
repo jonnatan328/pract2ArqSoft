@@ -56,7 +56,7 @@ public class EnrolmentBean implements Serializable {
     }
 
     public String validate() {
-        if (courses.size() >= 6) {
+        if (courses.size() >= 6 || courses.size() <= 0) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error:","Debe escoger entre 1 y 6 materias.");
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(myButton.getClientId(context), message);

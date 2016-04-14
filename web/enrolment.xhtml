@@ -8,68 +8,71 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>a</title>
+        <title>#{msg.title_enrolment}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="css/bootstrap.css"/>
-        <link rel="stylesheet" href="css/bootstrap-theme.css"/>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <script src="js/bootstrap.js"></script>
     </h:head>
 
     <h:body>  
-        <header class="container-fluid" style="height: 10%; background-color: #5bc0de">
-            <h1> Informacion de matricula </h1>
+        <header>
+            <h:form class="languages" >
+                <h:commandButton action="#{languageBean.changeLanguage('')}" value="English" image="img/eeuu.png" />
+                <h:commandButton action="#{languageBean.changeLanguage('es')}" value="Español" image="img/Spain.png" />
+            </h:form>
         </header>
 
-        <div class="ui-fuild" style="padding-top:25px ; width: 35%;margin: 0 auto">
-            <h:form id="enrolmentId" class="" >
-                <p:panelGrid columns="2" columnClasses="ui-grid-col-3,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
-                    <h:outputText value="Estudiante:" />
-                    <h:inputText style="width: 100%" value="#{student.name} #{student.lastName}" disabled="true"></h:inputText >
+        <div class="content" >
+            <div class="form-content">
+                <h:form>
+                    <h1>
+                        <h:outputText value="#{msg.enrolment_details}" />
+                    </h1>
+                    <h:panelGrid columns="2" class="innerPanel">
+                        <p:outputLabel value="#{msg.student}" for="student" />
+                        <p:inputText style="width: 100%" id="student" class="form-input" value="#{student.name} #{student.lastName}" disabled="true"></p:inputText >
 
-                    <h:outputText value="Documento:"/>    
-                    <h:inputText style="width: 100%" value="#{student.id}" disabled="true" class=""></h:inputText >
+                        <p:outputLabel value="#{msg.identification}" for="id"/>    
+                        <p:inputText id="id" class="form-input" value="#{student.id}" disabled="true" ></p:inputText >
 
-                    <h:outputText value="Programa:"/>
-                    <h:inputText style="width: 100%" value="#{student.program}" disabled="true"></h:inputText >
+                        <p:outputLabel value="#{msg.program}" for="program"/>
+                        <p:inputText id="program" class="form-input" value="#{student.program}" disabled="true"></p:inputText >
 
-                    <h:outputText value="Fecha:"/>
-                    <h:inputText style="width: 100%" value="#{enrolment.startingDate}" disabled="true"></h:inputText >
+                        <p:outputLabel value="#{msg.date}" for="date"/>
+                        <p:inputText id="date" class="form-input" value="#{enrolment.startingDate}" disabled="true"></p:inputText >
 
-                </p:panelGrid>  
-                <br/>
-                <p:panelGrid id="courseTable" columns="1" columnClasses="ui-grid-col-12" layout="grid" >
-                    <p:dataTable var="course" value="#{enrolment.courses}">
-                        <p:column headerText="Course Name">
-                            <h:outputText value="#{course}" />
-                        </p:column>      
-                    </p:dataTable>   
-                    <p:message for="myButton" styleClass="errormsg"/>
-                </p:panelGrid>
-                <br/>
+                    </h:panelGrid>  
+                    <h:panelGrid id="courseTable" class="innerPanel" columns="1"  >
+                        <p:dataTable var="course" value="#{enrolment.courses}">
+                            <p:column headerText="#{msg.courses}">
+                                <h:outputText value="#{course}" />
+                            </p:column>      
+                        </p:dataTable>   
+                        <p:message for="myButton" styleClass="errormsg"/>
+                    </h:panelGrid>
 
-                <p:commandButton value="Añadir materias" oncomplete="PF('diag1').show()" 
-                                 icon='ui-icon-check' update="grid"/> 
+                    <h:panelGrid class="innerPanel" columns="2"  >
 
-                <p:commandButton value="Confirmar" actionListener="#{enrolment.save()}" 
-                                 action="submitEnrolment" disabled="#{enrolment.disable}"/>
+                        <p:commandButton value="#{msg.add_courses}" oncomplete="PF('diag1').show()" 
+                                         icon='ui-icon-check' update="grid"/> 
 
-                <p:dialog header="values" modal="true" showEffect="clip" id="dialog1" widgetVar="diag1">
-                    <p:selectManyCheckbox id="grid" value="#{enrolment.courses}" layout="grid" columns="1">
-                        <f:selectItems value="#{enrolment.availableCourses}" var="#{course}" 
-                                       itemLabel="#{course}" itemValue="#{course}"/>
-                    </p:selectManyCheckbox>
+                        <p:commandButton value="#{msg.confirm}" actionListener="#{enrolment.save()}" 
+                                         action="submitEnrolment" disabled="#{enrolment.disable}"/>
+                    </h:panelGrid>
+                    <p:dialog header="#{msg.courses}" modal="true" showEffect="clip" id="dialog1" widgetVar="diag1">
+                        <p:selectManyCheckbox id="grid" value="#{enrolment.courses}" layout="grid" columns="1">
+                            <f:selectItems value="#{enrolment.availableCourses}" var="#{course}" 
+                                           itemLabel="#{course}" itemValue="#{course}"/>
+                        </p:selectManyCheckbox>
 
-                    <p:commandButton id="myButton" binding="#{enrolment.myButton}"
-                                     actionListener="#{enrolment.validate()}"
-                                     value="Salir" oncomplete="PF('diag1').hide()" 
-                                     icon='ui-icon-check' update="@form" /> 
-                </p:dialog>                
-
-            </h:form>
+                        <p:commandButton id="myButton" binding="#{enrolment.myButton}"
+                                         actionListener="#{enrolment.validate()}"
+                                         value="#{msg.add}" oncomplete="PF('diag1').hide()" 
+                                         icon='ui-icon-check' update="@form" /> 
+                    </p:dialog>                
+                </h:form>
+            </div>
         </div>
     </h:body>
 </html>

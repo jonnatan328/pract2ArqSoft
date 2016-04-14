@@ -10,84 +10,86 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <title>#{msg.title_student}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <title><h:outputText value="#{msg.title}" /></title>
-        <script name="jquery/jquery.js" library="primefaces"></script>
     </h:head>
+
     <h:body>
-        <h:form>
-            <h:commandButton action="#{student.changeLanguage('')}" value="English" image="resources/eeuu.jpg" />
-            <h:commandButton action="#{student.changeLanguage('es')}" value="Español" image="resources/spain.gif" />
-        </h:form>
+        <header>
+            <h:form class="languages" >
+                <h:commandButton action="#{languageBean.changeLanguage('')}" value="English" image="img/eeuu.png" />
+                <h:commandButton action="#{languageBean.changeLanguage('es')}" value="Español" image="img/Spain.png" />
+            </h:form>
+        </header>
 
-        <h:form prependId="false">       
-            <h1>
-                <h:outputText value="#{msg['student_details']}" />
-            </h1>
-            <h:panelGrid columns="3">
+        <div class="content">
+            <div class="form-content">
+                <h:form>       
+                    <h1>
+                        <h:outputText value="#{msg.student_details}" />
+                    </h1>
+                    <h:panelGrid columns="3" class="innerPanel" >
+                        <p:outputLabel class="form-label" value="#{msg.identification}" for="id" />
+                        <p:inputText id="id" class="form-input" label="#{msg.id}" value="#{student.id}"  required="true">
+                            <f:attribute name="requiredMessage" value="#{msg.id_required}" />
+                            <f:validateLongRange minimum="1"/>
+                        </p:inputText>
+                        <p:message for="id" styleClass="errormsg" />
 
-                <p:outputLabel value="#{msg.id}" for="id" />
-                <p:inputText id="id" label="#{msg.id}" value="#{student.id}" required="true">
-                    <f:attribute name="requiredMessage" value="#{msg.id_required}" />
-                </p:inputText>
-                <p:message for="id" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.name}" for="name" />
-                <p:inputText id="name" label="#{msg.name}" value="#{student.name}" required="true">
-                    <f:attribute name="requiredMessage" value="#{msg.namevalid}" />
-                    <!--<f:convertNumber minFractionDigits="2" />-->
-                    <!--<f:validateDoubleRange minimum="100" maximum="50000" />-->
-                </p:inputText>
-                <p:message for="name" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.lastName}" for="lastName" />
-                <p:inputText id="lastName" label="#{msg.lastName}" value="#{student.lastName}" required="true">
-                    <!--<f:validateLength minimum="16" />-->
-                    <f:attribute name="requiredMessage" value="#{msg.id_required}" />
-                </p:inputText>
-                <p:message for="lastName" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.program}" for="program" />
-                <p:selectOneMenu id="program" value="#{student.program}" required="true">
-                    <f:selectItems value="#{student.availablePrograms}" var="#{program}"
-                                   itemLabel="#{program}" itemValue="#{program}"/>
-                    <f:attribute name="requiredMessage" value="#{msg.program_required}" />
-                </p:selectOneMenu>
-                <p:message for="program" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.phone}" for="phone" />
-                <p:inputText id="phone" label="#{msg.phone}" value="#{student.phone}" required="true">
-                    <f:validateLength minimum="7" />
-                    <f:attribute name="requiredMessage" value="#{msg.phone_required}" />
-                </p:inputText>
-                <p:message for="phone" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.address}" for="address" />
-                <p:inputText id="address" label="#{msg.address}" value="#{student.address}" required="true">
-                    <f:attribute name="requiredMessage" value="#{msg.address_required}" />
-                </p:inputText>
-                <p:message for="address" styleClass="errormsg" />
-
-                <p:outputLabel value="#{msg.stratum}" for="stratum" />
-                <h:selectOneMenu id="stratum" value="#{student.stratum}">
-                    <f:selectItem itemValue="1" itemLabel="1" />
-                    <f:selectItem itemValue="2" itemLabel="2" />
-                    <f:selectItem itemValue="3" itemLabel="3" />
-                    <f:selectItem itemValue="4" itemLabel="4" />
-                    <f:selectItem itemValue="5" itemLabel="5" />
-                    <f:selectItem itemValue="6" itemLabel="6" />
-                </h:selectOneMenu>	
-                <p:message for="stratum" styleClass="errormsg" />
+                        <p:outputLabel class="form-label" value="#{msg.name}" for="name" />
+                        <p:inputText id="name" class="form-input" label="#{msg.name}" value="#{student.name}" required="true">
+                            <f:attribute name="requiredMessage" value="#{msg.namevalid}" />
+                        </p:inputText>
+                        <p:message for="name" styleClass="errormsg" />
 
 
-            </h:panelGrid>
-            <br/>                   
+                        <p:outputLabel class="form-label" value="#{msg.lastName}" for="lastName" />
+                        <p:inputText id="lastName" class="form-input" label="#{msg.lastName}" value="#{student.lastName}" required="true">
+                            <f:attribute name="requiredMessage" value="#{msg.id_required}" />
+                        </p:inputText>
+                        <p:message for="lastName" styleClass="errormsg" />
 
-            <p:commandButton id="buttonx"  value="Siguiente" action="submitStudent" update="@form"/>
-            <h:commandLink action="submitStudent">Estudiantes</h:commandLink>
-            <h:messages for="mybutton" />
-        </h:form>    
-        
+                        <p:outputLabel class="form-label" value="#{msg.program}" for="program" />
+                        <p:selectOneMenu id="program" class="form-input" value="#{student.program}" required="true">
+                            <f:selectItems value="#{student.availablePrograms}" var="#{program}"
+                                           itemLabel="#{program}" itemValue="#{program}"/>
+                            <f:attribute name="requiredMessage" value="#{msg.program_required}" />
+                        </p:selectOneMenu>
+                        <p:message for="program" styleClass="errormsg" />
 
+                        <p:outputLabel class="form-label" value="#{msg.phone}" for="phone" />
+                        <p:inputText id="phone" class="form-input" label="#{msg.phone}" value="#{student.phone}" required="true">
+                            <f:validateLength minimum="7" />
+                            <f:attribute name="requiredMessage" value="#{msg.phone_required}" />
+                        </p:inputText>
+                        <p:message for="phone" styleClass="errormsg" />
+
+                        <p:outputLabel class="form-label" value="#{msg.address}" for="address" />
+                        <p:inputText id="address" class="form-input" label="#{msg.address}" value="#{student.address}" required="true">
+                            <f:attribute name="requiredMessage" value="#{msg.address_required}" />
+                        </p:inputText>
+                        <p:message for="address" styleClass="errormsg" />
+
+                        <p:outputLabel class="form-label" value="#{msg.stratum}"  for="stratum" />
+                        <h:selectOneMenu id="stratum" value="#{student.stratum}">
+                            <f:selectItem itemValue="1" itemLabel="1" />
+                            <f:selectItem itemValue="2" itemLabel="2" />
+                            <f:selectItem itemValue="3" itemLabel="3" />
+                            <f:selectItem itemValue="4" itemLabel="4" />
+                            <f:selectItem itemValue="5" itemLabel="5" />
+                            <f:selectItem itemValue="6" itemLabel="6" />
+                        </h:selectOneMenu>	
+                        <p:message for="stratum" styleClass="errormsg" />
+                    </h:panelGrid>
+
+                    <h:panelGrid class="innerPanel">
+                        <p:commandButton id="myButton"  value="#{msg.next}" binding="#{student.mybutton}"
+                                         action="#{student.validateStudent()}" update="@form"/>
+                    </h:panelGrid>
+                    <p:message for="myButton" styleClass="errormsg"/>
+                </h:form>  
+            </div>
+        </div>
     </h:body>
 </html>
