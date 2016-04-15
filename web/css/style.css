@@ -105,6 +105,19 @@ input:disabled{
     background: linear-gradient(to bottom right, #4b6cb7, #182848); 
 }
 
+qrCode{
+    width: 400px;
+    height: 400px;
+    display: block;
+
+    margin: 0 auto;
+
+}
+
+#qrInput {
+    width: 100%;
+}
+
 .errormsg {
     color:red;
 }

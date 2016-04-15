@@ -52,16 +52,19 @@ and open the template in the editor.
                         <p:message for="myButton" styleClass="errormsg"/>
                     </h:panelGrid>
 
-                    <h:panelGrid class="innerPanel" columns="2"  >
+                    <h:panelGrid class="innerPanel" columns="3"  >
 
                         <p:commandButton value="#{msg.add_courses}" oncomplete="PF('diag1').show()" 
-                                         icon='ui-icon-check' update="grid"/> 
+                                         update="grid1"/> 
 
-                        <p:commandButton value="#{msg.confirm}" actionListener="#{enrolment.save()}" 
-                                         action="submitEnrolment" disabled="#{enrolment.disable}"/>
+                        <p:commandButton value="#{msg.back}" action="backToStudent"/>
+
+                        <p:commandButton value="#{msg.confirm}" oncomplete="PF('diag2').show()" 
+                                         disabled="#{enrolment.disable}" icon='ui-icon-check'
+                                         update="qrForm"/>
                     </h:panelGrid>
                     <p:dialog header="#{msg.courses}" modal="true" showEffect="clip" id="dialog1" widgetVar="diag1">
-                        <p:selectManyCheckbox id="grid" value="#{enrolment.courses}" layout="grid" columns="1">
+                        <p:selectManyCheckbox id="grid1" value="#{enrolment.courses}" layout="grid" columns="1">
                             <f:selectItems value="#{enrolment.availableCourses}" var="#{course}" 
                                            itemLabel="#{course}" itemValue="#{course}"/>
                         </p:selectManyCheckbox>
@@ -72,6 +75,24 @@ and open the template in the editor.
                                          icon='ui-icon-check' update="@form" /> 
                     </p:dialog>                
                 </h:form>
+
+                <p:dialog modal="true" showEffect="clip" id="dialog2" widgetVar="diag2">
+                    <h:form id="qrForm">
+                        <h:panelGrid columns="1" class="innerPanel">
+                            <p:graphicImage id="qrCode" class="form-input" value="#{qRCodeBean.qrStream}" />
+                            <p:outputLabel value="#{msg.qr_message}"/>
+                            <p:inputText id="qrInput" class="form-input" value="#{qRCodeBean.qrString}"/>
+                            <p:message for="qrButton" styleClass="errormsg"/>
+                        </h:panelGrid>
+                        <p:commandButton id="qrButton" value="#{msg.check}" actionListener="#{qRCodeBean.check()}"
+                                         binding="#{qRCodeBean.qrButton}" disabled="#{!qRCodeBean.disable}" update="qrForm"/>
+                        <p:commandButton value="#{msg.confirm}" oncomplete="PF('diag2').hide()"
+                                         actionListener="#{enrolment.save()}" disabled="#{qRCodeBean.disable}"
+                                         icon='ui-icon-check' action="submitEnrolment"/> 
+                    </h:form>
+                </p:dialog> 
+
+
             </div>
         </div>
     </h:body>

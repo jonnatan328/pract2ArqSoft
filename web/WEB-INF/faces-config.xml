@@ -57,6 +57,10 @@
             <from-outcome>submitEnrolment</from-outcome>
             <to-view-id>/result.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>backToStudent</from-outcome>
+            <to-view-id>/infoStudent.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
 
