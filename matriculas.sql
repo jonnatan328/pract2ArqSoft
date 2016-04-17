@@ -1,4 +1,4 @@
-create table student(
+create table students(
 identification bigint primary key,
 names varchar(50),
 last_names varchar(50),
@@ -18,16 +18,10 @@ create table enrolments(
 id bigint primary key auto_increment,
 student_identification bigint,
 course_id varchar(20),
-FOREIGN KEY (student_identification) REFERENCES student(identification),
+enrolment_date date,
+FOREIGN KEY (student_identification) REFERENCES students(identification),
 FOREIGN KEY (course_id) REFERENCES courses(id)
 );
-
-
-insert into programs value('1','Ingenieria de sistemas');
-insert into programs value('2','Ingenieria industrial');
-insert into programs value('3','Ingenieria telecomunicaciones');
-insert into programs value('4','Ingenieria ambiental');
-insert into programs value('5','Ingenieria electrica');
 
 insert into courses value('cod1', 'Algebra y trigonometria', 4 );
 insert into courses value('cod2', 'Calculo diferencial', 5 );

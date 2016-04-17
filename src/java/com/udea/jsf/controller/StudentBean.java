@@ -5,7 +5,6 @@ import com.udea.modelo.Students;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,9 +19,9 @@ public class StudentBean implements Serializable {
 
     @EJB
     private StudentsFacadeLocal studentsFacade;
+    
 
-    private UIComponent mybutton;
-
+    //Atributos de el formulario de estudiantes
     private long id;
     private String name;
     private String lastName;
@@ -30,19 +29,19 @@ public class StudentBean implements Serializable {
     private String phone;
     private String address;
     private int stratum;
-    boolean disable = true;
-
-    private Students student;
-
     private List<String> availablePrograms;
 
-    String sSubCadena;
-    String mensajecard;
-    String m;
+    //Componentes de control del formulario.
+    private UIComponent mybutton;
+    boolean disable = true;
+
+    //POJO de la entidad de estudiante
+    private Students student;
 
     public StudentBean() {
     }
 
+    //Inicializacion de los programas disponibles, se ejecuta luego de la creacion de el bean.
     @PostConstruct
     public void init() {
         availablePrograms = new ArrayList<String>();
@@ -54,10 +53,12 @@ public class StudentBean implements Serializable {
         availablePrograms.add("Filosofia");
     }
 
+    //Se verifica que el estudiante no haya sido matriculado.
     public String validateStudent() {
-        if (studentsFacade.find(id) == null) {
+       
+        if (studentsFacade.find(id) == null) { //Si el estudiante no existe se procede a la siguiente vista de matricula
             return "submitStudent";
-        } else {
+        } else { //Si el estudiante ya existe se verifica mediante un mensaje de error.
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El estudiante ya ha sido matriculado.");
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(mybutton.getClientId(context), message);
@@ -65,6 +66,7 @@ public class StudentBean implements Serializable {
         return null;
     }
 
+    //Funcion para guardar en la base de datos la informacion del estudiante.
     public void save() {
         student = new Students();
         student.setIdentification(id);
@@ -74,9 +76,11 @@ public class StudentBean implements Serializable {
         student.setAddress(address);
         student.setPhone(phone);
         student.setStratum(stratum);
+
         studentsFacade.create(student);
     }
 
+    //Getters y Setters
     public void setMybutton(UIComponent mybutton) {
         this.mybutton = mybutton;
     }
@@ -116,31 +120,7 @@ public class StudentBean implements Serializable {
     public void setProgram(String program) {
         this.program = program;
     }
-
-    public String getM() {
-        return m;
-    }
-
-    public void setM(String m) {
-        this.m = m;
-    }
-
-    public String getMensajecard() {
-        return mensajecard;
-    }
-
-    public void setMensajecard(String mensajecard) {
-        this.mensajecard = mensajecard;
-    }
-
-    public String getsSubCadena() {
-        return sSubCadena;
-    }
-
-    public void setsSubCadena(String sSubCadena) {
-        this.sSubCadena = sSubCadena;
-    }
-
+    
     public long getId() {
         return id;
     }

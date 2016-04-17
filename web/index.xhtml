@@ -23,15 +23,12 @@
             <div class="body-content">
                 <h:form>
                     <img id="nojava" src="img/thisisnotjava.png" align="center"/>
-                    <h:commandLink class="startButton" action="startEnrolment">#{msg.start_enrolment}</h:commandLink>
+                    <h:commandLink value="#{msg.start_enrolment}" 
+                                   class="commandButton" action="startEnrolment"/>
                 </h:form>
             </div>
 
         </div>
-
-        <footer id="pie">
-
-        </footer>
     </h:body>
 
 </html>

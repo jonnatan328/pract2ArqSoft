@@ -30,18 +30,20 @@ and open the template in the editor.
                         <h:outputText value="#{msg.enrolment_details}" />
                     </h1>
                     <h:panelGrid columns="2" class="innerPanel">
-                        <p:outputLabel value="#{msg.student}" for="student" />
-                        <p:inputText style="width: 100%" id="student" class="form-input" value="#{student.name} #{student.lastName}" disabled="true"></p:inputText >
 
-                        <p:outputLabel value="#{msg.identification}" for="id"/>    
-                        <p:inputText id="id" class="form-input" value="#{student.id}" disabled="true" ></p:inputText >
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="#{msg.student}" for="student" />
+                            <p:inputText style="width: 100%" id="student" class="form-input" value="#{student.name} #{student.lastName}" disabled="true"></p:inputText >
 
-                        <p:outputLabel value="#{msg.program}" for="program"/>
-                        <p:inputText id="program" class="form-input" value="#{student.program}" disabled="true"></p:inputText >
+                            <p:outputLabel value="#{msg.identification}" for="id"/>    
+                            <p:inputText id="id" class="form-input" value="#{student.id}" disabled="true" ></p:inputText >
 
-                        <p:outputLabel value="#{msg.date}" for="date"/>
-                        <p:inputText id="date" class="form-input" value="#{enrolment.startingDate}" disabled="true"></p:inputText >
+                            <p:outputLabel value="#{msg.program}" for="program"/>
+                            <p:inputText id="program" class="form-input" value="#{student.program}" disabled="true"></p:inputText >
 
+                            <p:outputLabel value="#{msg.date}" for="date"/>
+                            <p:inputText id="date" class="form-input" value="#{enrolment.startingDate}" disabled="true"></p:inputText >
+                        </h:panelGrid>
                     </h:panelGrid>  
                     <h:panelGrid id="courseTable" class="innerPanel" columns="1"  >
                         <p:dataTable var="course" value="#{enrolment.courses}">
@@ -61,9 +63,9 @@ and open the template in the editor.
 
                         <p:commandButton value="#{msg.confirm}" oncomplete="PF('diag2').show()" 
                                          disabled="#{enrolment.disable}" icon='ui-icon-check'
-                                         update="qrForm"/>
-                    </h:panelGrid>
-                    <p:dialog header="#{msg.courses}" modal="true" showEffect="clip" id="dialog1" widgetVar="diag1">
+                                         update="qr-validation"/>
+                    </h:panelGrid>                
+                    <p:dialog header="#{msg.courses}" modal="true" showEffect="clip" widgetVar="diag1">
                         <p:selectManyCheckbox id="grid1" value="#{enrolment.courses}" layout="grid" columns="1">
                             <f:selectItems value="#{enrolment.availableCourses}" var="#{course}" 
                                            itemLabel="#{course}" itemValue="#{course}"/>
@@ -73,26 +75,20 @@ and open the template in the editor.
                                          actionListener="#{enrolment.validate()}"
                                          value="#{msg.add}" oncomplete="PF('diag1').hide()" 
                                          icon='ui-icon-check' update="@form" /> 
-                    </p:dialog>                
+                    </p:dialog> 
                 </h:form>
 
-                <p:dialog modal="true" showEffect="clip" id="dialog2" widgetVar="diag2">
-                    <h:form id="qrForm">
-                        <h:panelGrid columns="1" class="innerPanel">
-                            <p:graphicImage id="qrCode" class="form-input" value="#{qRCodeBean.qrStream}" />
+                <p:dialog modal="true" showEffect="clip"  widgetVar="diag2" resizable="false" width="20%">
+                    <h:form id="qr-validation">
+                        <h:panelGrid columns="1">
+                            <p:barcode class="qrCode" value="#{QRCode.qrCodeString}" type="qr"/>
                             <p:outputLabel value="#{msg.qr_message}"/>
-                            <p:inputText id="qrInput" class="form-input" value="#{qRCodeBean.qrString}"/>
-                            <p:message for="qrButton" styleClass="errormsg"/>
+                            <p:inputText validator="#{QRCode.makeValidation}"/>
+                            <p:commandButton actionListener="#{enrolment.save()}" action="submitEnrolment" value="#{msg.confirm}" update="qr-validation"/>
                         </h:panelGrid>
-                        <p:commandButton id="qrButton" value="#{msg.check}" actionListener="#{qRCodeBean.check()}"
-                                         binding="#{qRCodeBean.qrButton}" disabled="#{!qRCodeBean.disable}" update="qrForm"/>
-                        <p:commandButton value="#{msg.confirm}" oncomplete="PF('diag2').hide()"
-                                         actionListener="#{enrolment.save()}" disabled="#{qRCodeBean.disable}"
-                                         icon='ui-icon-check' action="submitEnrolment"/> 
+                        <p:messages/>
                     </h:form>
-                </p:dialog> 
-
-
+                </p:dialog>
             </div>
         </div>
     </h:body>

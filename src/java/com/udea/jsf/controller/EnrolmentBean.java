@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -41,32 +40,27 @@ public class EnrolmentBean implements Serializable {
     @ManagedProperty(value = "#{student}")
     private StudentBean studentBean;
 
+    //Componentes de control del formulario.
     private UIComponent myButton;
     boolean disable = true;
 
+    //Atributos del formulario
     private long student;
     private String program;
     private Date startingDate = new Date();
-    private List<String> availableCourses;
     private List<String> courses;
+    
+    //Lista de cursos que hay en la base de datos.
+    private List<String> availableCourses;
 
+    //Arreglo de POJOS de la entidad de cursos.
     private List<Courses> courseList;
 
     public EnrolmentBean() {
     }
 
-    public String validate() {
-        if (courses.size() >= 6 || courses.size() <= 0) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error:","Debe escoger entre 1 y 6 materias.");
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(myButton.getClientId(context), message);
-            disable = true;
-        } else {
-            disable = false;
-        }
-        return null;
-    }
-
+    //Inicializacion de los cursos disponibles, se obtienen apartir de 
+    //la base de datos luego de la creacion del managedbean
     @PostConstruct
     public void updateCourses() {
         if (availableCourses == null) {
@@ -78,22 +72,41 @@ public class EnrolmentBean implements Serializable {
         }
     }
 
-    //Acción para insertar el registro en la BD.  
-    public void save() {
-        studentBean.save();
-        Students student = studentBean.getStudent();
-        Enrolments enrolment;
+    //Funcion para validar la cantidad de cursos seleccionados por el usuario,
+    //se verifica que solo pueda escoger entre 1 y 6 materias
+    public String validate() {
+        if (courses.size() >= 7 || courses.size() <= 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Debe escoger entre 1 y 6 materias.");
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(myButton.getClientId(context), message);
+            disable = true;
+        } else {
+            disable = false;
+        }
+        return null;
+    }
 
+    //Acción para guardar los datos de matricula.  
+    public void save() {
+        //Primero se guarda la informacion del estudiando haciendo llamado a la funcion
+        //del managedBean del estudiante que guarda la informacion correspondiente en la base de datos 
+        studentBean.save();
+        Students studentDB  = studentBean.getStudent();
+        
+        //Se procede a guardar la lista de cursos matriculados por el estudiante en la base de datos.
+        Enrolments enrolment;
         for (int i = 0; i < courses.size(); i++) {
             enrolment = new Enrolments();
             Courses c = courseList.get(availableCourses.indexOf(courses.get(i)));
-            enrolment.setStudentIdentification(student);
+            enrolment.setStudentIdentification(studentDB);
             enrolment.setCourseId(c);
             enrolment.setEnrolmentDate(startingDate);
             enrolmentsFacade.create(enrolment);
         }
     }
 
+    
+    //Setters y Getters
     public void setStudentBean(StudentBean studentBean) {
         this.studentBean = studentBean;
     }
